@@ -73,13 +73,26 @@ export function can(
   return MATRIX[module]?.[action]?.includes(role) ?? false;
 }
 
-/** Apakah role punya akses baca (minimal) ke sebuah modul — dipakai untuk
- *  menampilkan/menyembunyikan menu sidebar & guard route di middleware. */
+/**
+ * Apakah role boleh MEMBUKA halaman/section sebuah modul — dipakai untuk
+ * menu sidebar & guard route middleware. Berbeda dari `can(...,'read')`:
+ * modul `master` khusus mensyaratkan hak KELOLA (create/update/delete), bukan
+ * sekadar read. Sebab read master untuk Resepsionis/Kepala Dinas hanya dipakai
+ * autocomplete di form tamu (via lookup langsung), bukan mengakses halaman
+ * manajemen master data (docs/01 §6).
+ */
 export function canAccessModule(
   role: RoleName | undefined | null,
   module: Module,
 ): boolean {
   if (!role) return false;
+  if (module === "master") {
+    return (
+      can(role, "master", "create") ||
+      can(role, "master", "update") ||
+      can(role, "master", "delete")
+    );
+  }
   const actions = MATRIX[module];
   if (!actions) return false;
   return Object.values(actions).some((roles) => roles?.includes(role));
