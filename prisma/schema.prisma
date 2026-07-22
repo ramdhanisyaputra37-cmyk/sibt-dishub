@@ -1,0 +1,327 @@
+// SIBT-DISHUB — Skema database inti (Tahap 1 — Analisis & Desain).
+// Konvensi: model PascalCase (Prisma) <-> tabel snake_case (Postgres) via @@map/@map.
+// Rasional lengkap tiap keputusan ada di docs/03-erd-dan-skema-database.md.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ---------------------------------------------------------------------------
+// Enums
+// ---------------------------------------------------------------------------
+
+enum RoleName {
+  SUPER_ADMIN
+  ADMIN
+  RESEPSIONIS
+  KEPALA_DINAS
+
+  @@map("role_name")
+}
+
+enum Gender {
+  LAKI_LAKI
+  PEREMPUAN
+
+  @@map("gender")
+}
+
+enum GuestStatus {
+  MENUNGGU
+  DIPROSES
+  SELESAI
+  DIBATALKAN
+
+  @@map("guest_status")
+}
+
+enum ActivityAction {
+  LOGIN
+  LOGOUT
+  CREATE
+  UPDATE
+  DELETE
+  RESTORE
+  CHECK_OUT
+  PRINT
+  EXPORT
+  IMPORT
+
+  @@map("activity_action")
+}
+
+// ---------------------------------------------------------------------------
+// Identitas & akses
+// ---------------------------------------------------------------------------
+
+model Role {
+  id          String   @id @default(uuid())
+  name        RoleName @unique
+  description String?
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  users User[]
+
+  @@map("roles")
+}
+
+// Seluruh relasi keluar dari User di bawah ini sengaja memakai onDelete:
+// Restrict tanpa kecuali: User tidak pernah di-hard-delete (lihat docs/01
+// §4.3), sehingga baris User harus tetap ada selama masih direferensikan
+// oleh riwayat apa pun (tamu yang ia input, log aktivitas, dst). "Menghapus"
+// user = menonaktifkan (isActive = false), bukan menghapus barisnya.
+model User {
+  id           String    @id @default(uuid())
+  name         String
+  email        String    @unique
+  passwordHash String    @map("password_hash")
+  phoneNumber  String?   @map("phone_number")
+  isActive     Boolean   @default(true) @map("is_active")
+  lastLoginAt  DateTime? @map("last_login_at")
+
+  roleId String @map("role_id")
+  role   Role   @relation(fields: [roleId], references: [id], onDelete: Restrict)
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  createdGuests       Guest[]       @relation("GuestCreatedBy")
+  updatedGuests       Guest[]       @relation("GuestUpdatedBy")
+  deletedGuests       Guest[]       @relation("GuestDeletedBy")
+  createdEmployees    Employee[]    @relation("EmployeeCreatedBy")
+  updatedEmployees    Employee[]    @relation("EmployeeUpdatedBy")
+  createdDepartments  Department[]  @relation("DepartmentCreatedBy")
+  updatedDepartments  Department[]  @relation("DepartmentUpdatedBy")
+  createdInstitutions Institution[] @relation("InstitutionCreatedBy")
+  updatedInstitutions Institution[] @relation("InstitutionUpdatedBy")
+  createdPurposes     Purpose[]     @relation("PurposeCreatedBy")
+  updatedPurposes     Purpose[]     @relation("PurposeUpdatedBy")
+  activityLogs        ActivityLog[]
+  updatedSettings     Setting[]
+
+  @@index([roleId])
+  @@index([isActive])
+  @@map("users")
+}
+
+// ---------------------------------------------------------------------------
+// Master data — "hapus" = nonaktifkan (isActive), tidak pernah hard delete
+// selama masih direferensikan (ditegakkan lewat onDelete: Restrict di Guest).
+// Uniqueness `name` case-sensitive di level Prisma; pengecekan case-
+// insensitive dilakukan di application layer + index tambahan lower(name)
+// yang ditambahkan manual pada migration pertama (detail: docs/03).
+// ---------------------------------------------------------------------------
+
+model Department {
+  id          String  @id @default(uuid())
+  name        String  @unique
+  description String?
+  isActive    Boolean @default(true) @map("is_active")
+
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+  createdById String?  @map("created_by")
+  createdBy   User?    @relation("DepartmentCreatedBy", fields: [createdById], references: [id], onDelete: Restrict)
+  updatedById String?  @map("updated_by")
+  updatedBy   User?    @relation("DepartmentUpdatedBy", fields: [updatedById], references: [id], onDelete: Restrict)
+
+  employees Employee[]
+  guests    Guest[]
+
+  @@index([isActive])
+  @@map("departments")
+}
+
+model Institution {
+  id          String  @id @default(uuid())
+  name        String  @unique
+  address     String?
+  phoneNumber String? @map("phone_number")
+  isActive    Boolean @default(true) @map("is_active")
+
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+  createdById String?  @map("created_by")
+  createdBy   User?    @relation("InstitutionCreatedBy", fields: [createdById], references: [id], onDelete: Restrict)
+  updatedById String?  @map("updated_by")
+  updatedBy   User?    @relation("InstitutionUpdatedBy", fields: [updatedById], references: [id], onDelete: Restrict)
+
+  guests Guest[]
+
+  @@index([isActive])
+  @@map("institutions")
+}
+
+// Employee.name sengaja TIDAK @unique: nama orang bisa kembar di dunia
+// nyata. Duplikasi dicek case-insensitive di application layer sebagai
+// peringatan (bukan blokir keras), di-scope ke (name, departmentId).
+model Employee {
+  id          String  @id @default(uuid())
+  name        String
+  nip         String? @unique
+  position    String?
+  phoneNumber String? @map("phone_number")
+  isActive    Boolean @default(true) @map("is_active")
+
+  departmentId String     @map("department_id")
+  department   Department @relation(fields: [departmentId], references: [id], onDelete: Restrict)
+
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+  createdById String?  @map("created_by")
+  createdBy   User?    @relation("EmployeeCreatedBy", fields: [createdById], references: [id], onDelete: Restrict)
+  updatedById String?  @map("updated_by")
+  updatedBy   User?    @relation("EmployeeUpdatedBy", fields: [updatedById], references: [id], onDelete: Restrict)
+
+  guests Guest[]
+
+  @@index([departmentId])
+  @@index([isActive])
+  @@map("employees")
+}
+
+model Purpose {
+  id          String  @id @default(uuid())
+  name        String  @unique
+  description String?
+  isActive    Boolean @default(true) @map("is_active")
+
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+  createdById String?  @map("created_by")
+  createdBy   User?    @relation("PurposeCreatedBy", fields: [createdById], references: [id], onDelete: Restrict)
+  updatedById String?  @map("updated_by")
+  updatedBy   User?    @relation("PurposeUpdatedBy", fields: [updatedById], references: [id], onDelete: Restrict)
+
+  guests Guest[]
+
+  @@index([isActive])
+  @@map("purposes")
+}
+
+// ---------------------------------------------------------------------------
+// Buku Tamu — entitas transaksional inti
+// ---------------------------------------------------------------------------
+
+model Guest {
+  id String @id @default(uuid())
+
+  // Format YYYYMMDD-0001, unik global (tanggal sudah ter-embed di string),
+  // digenerate atomik lewat tabel DailyCounter (lihat docs/01 §4.2).
+  queueNumber String @unique @map("queue_number")
+
+  // Terpisah dari `id` sebagai lapisan keamanan self-checkout (docs/01 §4.9).
+  qrToken String @unique @default(uuid()) @map("qr_token")
+
+  visitDate    DateTime  @map("visit_date") @db.Date
+  checkInTime  DateTime  @map("check_in_time")
+  checkOutTime DateTime? @map("check_out_time")
+
+  fullName    String  @map("full_name")
+  nik         String? @db.VarChar(16)
+  gender      Gender
+  address     String
+  phoneNumber String  @map("phone_number")
+  email       String?
+
+  institutionId String      @map("institution_id")
+  institution   Institution @relation(fields: [institutionId], references: [id], onDelete: Restrict)
+
+  departmentId String     @map("department_id")
+  department   Department @relation(fields: [departmentId], references: [id], onDelete: Restrict)
+
+  // Nullable: tamu bisa saja hanya menuju sebuah bidang tanpa pegawai
+  // spesifik yang dituju. Tetap Restrict (bukan SetNull) walau opsional —
+  // riwayat "pegawai yang ditemui" tidak boleh hilang diam-diam jika data
+  // pegawai suatu saat coba dihapus paksa (docs/01 §4.3).
+  employeeId String?   @map("employee_id")
+  employee   Employee? @relation(fields: [employeeId], references: [id], onDelete: Restrict)
+
+  purposeId   String  @map("purpose_id")
+  purpose     Purpose @relation(fields: [purposeId], references: [id], onDelete: Restrict)
+  visitDetail String? @map("visit_detail")
+
+  status GuestStatus @default(MENUNGGU)
+  notes  String?
+
+  // Base64 PNG langsung di kolom (keputusan terkunci, docs/01 §3).
+  signatureImage String? @map("signature_image") @db.Text
+  // URL Vercel Blob (keputusan terkunci, docs/01 §3).
+  photoUrl       String? @map("photo_url")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  createdById String? @map("created_by")
+  createdBy   User?   @relation("GuestCreatedBy", fields: [createdById], references: [id], onDelete: Restrict)
+  updatedById String? @map("updated_by")
+  updatedBy   User?   @relation("GuestUpdatedBy", fields: [updatedById], references: [id], onDelete: Restrict)
+
+  // Soft delete (docs/01 §4.3) — hanya Admin/Super Admin yang berwenang.
+  deletedAt   DateTime? @map("deleted_at")
+  deletedById String?   @map("deleted_by")
+  deletedBy   User?     @relation("GuestDeletedBy", fields: [deletedById], references: [id], onDelete: Restrict)
+
+  @@index([visitDate])
+  @@index([status])
+  @@index([institutionId])
+  @@index([departmentId])
+  @@index([employeeId])
+  @@index([purposeId])
+  @@index([deletedAt])
+  @@index([fullName])
+  @@index([createdAt])
+  @@index([visitDate, status])
+  @@map("guests")
+}
+
+// Penopang generasi nomor antrian atomik (docs/01 §4.2) — satu baris per
+// tanggal, di-increment via raw upsert query, bukan read-then-write.
+model DailyCounter {
+  date      DateTime @id @db.Date
+  lastValue Int      @default(0) @map("last_value")
+
+  @@map("daily_counters")
+}
+
+// Append-only — tidak ada aksi hapus di aplikasi untuk model ini sama sekali.
+model ActivityLog {
+  id     String         @id @default(uuid())
+  userId String?        @map("user_id")
+  user   User?          @relation(fields: [userId], references: [id], onDelete: Restrict)
+  action ActivityAction
+
+  entityType  String? @map("entity_type")
+  entityId    String? @map("entity_id")
+  description String
+  metadata    Json?
+  ipAddress   String? @map("ip_address")
+  userAgent   String? @map("user_agent")
+
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@index([userId])
+  @@index([action])
+  @@index([entityType, entityId])
+  @@index([createdAt])
+  @@map("activity_logs")
+}
+
+model Setting {
+  id          String  @id @default(uuid())
+  key         String  @unique
+  value       String
+  description String?
+
+  updatedAt   DateTime @updatedAt @map("updated_at")
+  updatedById String?  @map("updated_by")
+  updatedBy   User?    @relation(fields: [updatedById], references: [id], onDelete: Restrict)
+
+  @@map("settings")
+}
