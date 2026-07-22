@@ -334,7 +334,7 @@ Tahap 2 ("Setup project").
 | framer-motion | ^11.15.0 | Animasi |
 | sonner | ^1.7.1 | Notifikasi |
 | recharts | ^2.15.0 | Grafik |
-| @vercel/blob | ^0.27.0 | Storage foto |
+| @vercel/blob | ^2.6.1 | Storage foto |
 | qrcode | ^1.5.4 | Generate QR |
 | @react-pdf/renderer | ^4.1.5 | Export PDF |
 | exceljs | ^4.4.0 | Export/Import Excel |
@@ -342,9 +342,22 @@ Tahap 2 ("Setup project").
 | @upstash/ratelimit + @upstash/redis | ^2.0.5 / ^1.34.3 | Rate limiting (§4.6) |
 | date-fns-tz | ^3.2.0 | Timezone-aware date handling (§4.11) |
 
-Versi minor/patch akan disesuaikan ke rilis stabil terbaru saat `npm install`
-benar-benar dijalankan di Tahap 2 jika ada update penting, dan akan dicatat
-di ringkasan Tahap 2.
+**Update Tahap 2 (setelah `npm install` sungguhan dijalankan)**: `bcrypt`
+dinaikkan ke `^6.0.0` (dari rencana `^5.1.1`) dan `@vercel/blob` ke `^2.6.1`
+(dari rencana `^0.27.0`) untuk menghindari advisory keamanan pada versi lama
+masing-masing (`node-pre-gyp`→`tar` path traversal untuk bcrypt 5.x;
+`undici` request-smuggling/DoS untuk @vercel/blob 0.x). Tambahan
+`overrides` di `package.json` untuk `sharp` (dependency opsional Next.js,
+dipin ulang ke `^0.35.1`) dan `uuid` (dependency transitif `exceljs`, dipin
+ulang ke `^11.1.1`) — keduanya memperbaiki advisory tanpa mengubah versi
+paket induknya. Sisa 1 advisory moderate (`postcss` XSS-on-stringify)
+melekat di **copy internal postcss milik Next.js sendiri**
+(`next/node_modules/postcss`, dipakai pipeline build internal Next, bukan
+`postcss` top-level milik kita yang sudah versi aman) — advisory ini
+berlaku di seluruh rentang rilis Next 15/16 saat ini per data audit
+sendiri, tidak ada fix tanpa downgrade absurd ke Next 9. Risiko nyata
+rendah: postcss hanya jalan saat build (bukan per-request) dan memproses
+CSS milik kita sendiri, bukan input tamu — dipantau, bukan diabaikan.
 
 ---
 
