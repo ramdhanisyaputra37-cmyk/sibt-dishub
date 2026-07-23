@@ -14,9 +14,9 @@ export default async function AppLayout({
   const user = await requireUser();
 
   return (
-    <div className="flex min-h-screen bg-background">
+    <div className="bg-app-shell flex min-h-screen">
       {/* Sidebar desktop (statis); versi mobile ada di Topbar (Sheet). */}
-      <aside className="hidden w-64 shrink-0 border-r bg-card lg:block">
+      <aside className="bg-sidebar-shell hidden w-64 shrink-0 border-r lg:block">
         <ScrollArea className="h-screen">
           <SidebarNav role={user.role as RoleName} />
         </ScrollArea>

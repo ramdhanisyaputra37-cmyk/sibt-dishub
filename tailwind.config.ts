@@ -65,8 +65,9 @@ const config: Config = {
         },
       },
       fontFamily: {
-        // Font display berkarakter untuk heading landing/login (Plus Jakarta
-        // Sans). Body dashboard tetap memakai stack default yang ada.
+        // Plus Jakarta Sans dipakai menyeluruh (body & heading); Inter tetap
+        // dipertahankan sebagai cadangan bila font gagal dimuat.
+        sans: ["var(--font-display)", "var(--font-sans)", "system-ui", "sans-serif"],
         display: ["var(--font-display)", "var(--font-sans)", "sans-serif"],
       },
       borderRadius: {

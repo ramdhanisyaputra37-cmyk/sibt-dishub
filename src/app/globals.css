@@ -52,7 +52,7 @@
     --input: 214.3 31.8% 91.4%;
     --ring: 208.3 100% 33.7%;
 
-    --radius: 0.5rem;
+    --radius: 0.7rem;
   }
 
   .dark {
@@ -105,7 +105,65 @@
   }
   body {
     @apply bg-background text-foreground;
+    /* Ritme baca lebih longgar agar teks tidak terasa padat. */
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-feature-settings: "cv11", "ss01";
   }
+  /* Heading: rapat sedikit dan tidak terlalu tebal supaya terasa tenang,
+     bukan "berteriak". */
+  h1,
+  h2,
+  h3,
+  h4 {
+    letter-spacing: -0.02em;
+    line-height: 1.25;
+  }
+  /* Angka pada tabel & statistik sejajar rapi antar-baris. */
+  table,
+  .tabular-nums {
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+/*
+ * Latar area aplikasi (dashboard): gradasi radial sangat tipis di dua sudut
+ * agar layar tidak terasa datar. Sengaja dijaga nyaris tak kasatmata supaya
+ * keterbacaan tabel dan angka tidak terganggu.
+ */
+.bg-app-shell {
+  background-color: hsl(var(--background));
+  background-image:
+    radial-gradient(58% 48% at 8% 0%, hsl(var(--primary) / 0.07), transparent 60%),
+    radial-gradient(46% 42% at 100% 4%, hsl(var(--gold) / 0.06), transparent 58%),
+    radial-gradient(70% 60% at 60% 100%, hsl(208 60% 70% / 0.05), transparent 70%);
+  background-attachment: fixed;
+}
+
+/* Sidebar: gradasi vertikal halus dari putih ke biru sangat muda. */
+.bg-sidebar-shell {
+  background-image: linear-gradient(
+    180deg,
+    hsl(var(--card)) 0%,
+    hsl(210 60% 98.5%) 55%,
+    hsl(210 70% 97%) 100%
+  );
+}
+
+.dark .bg-app-shell {
+  background-image:
+    radial-gradient(58% 48% at 8% 0%, hsl(var(--primary) / 0.16), transparent 62%),
+    radial-gradient(46% 42% at 100% 4%, hsl(var(--gold) / 0.08), transparent 60%),
+    radial-gradient(70% 60% at 60% 100%, hsl(214 62% 30% / 0.18), transparent 72%);
+}
+
+.dark .bg-sidebar-shell {
+  background-image: linear-gradient(
+    180deg,
+    hsl(var(--card)) 0%,
+    hsl(221 46% 11%) 100%
+  );
 }
 
 @media print {

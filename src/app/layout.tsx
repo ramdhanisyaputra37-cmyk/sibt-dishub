@@ -10,12 +10,13 @@ const inter = Inter({
   display: "swap",
 });
 
-// Font display untuk heading halaman publik (landing & login). Ditugaskan
-// pemerintah Provinsi DKI Jakarta — cocok untuk identitas instansi.
+// Plus Jakarta Sans dipakai di seluruh aplikasi (bukan hanya heading publik):
+// terminal hurufnya lebih membulat sehingga terasa lebih lembut dibanding
+// grotesk kaku, namun tetap berwibawa untuk konteks instansi.
 const jakarta = Plus_Jakarta_Sans({
   subsets: ["latin"],
   variable: "--font-display",
-  weight: ["500", "600", "700", "800"],
+  weight: ["400", "500", "600", "700", "800"],
   display: "swap",
 });
 
