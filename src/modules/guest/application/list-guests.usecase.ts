@@ -15,6 +15,7 @@ export interface GuestListRow {
   checkInTime: Date;
   checkOutTime: Date | null;
   status: string;
+  autoClosed: boolean;
 }
 
 export interface GuestListResult {
@@ -77,6 +78,7 @@ export async function listGuests(q: ListQuery): Promise<GuestListResult> {
         checkInTime: true,
         checkOutTime: true,
         status: true,
+        autoClosed: true,
         institution: { select: { name: true } },
         department: { select: { name: true } },
         employee: { select: { name: true } },
@@ -95,6 +97,7 @@ export async function listGuests(q: ListQuery): Promise<GuestListResult> {
       checkInTime: g.checkInTime,
       checkOutTime: g.checkOutTime,
       status: g.status,
+      autoClosed: g.autoClosed,
     })),
     total,
     page: q.page,

@@ -32,6 +32,7 @@ export interface GuestListRowVM {
   checkInTime: string;
   checkOutTime: string | null;
   status: GuestStatus;
+  autoClosed: boolean;
   canEdit: boolean;
 }
 
@@ -119,7 +120,18 @@ export function GuestList({
                       <TableCell>{g.departmentName}</TableCell>
                       <TableCell>{formatTimeID(g.checkInTime)}</TableCell>
                       <TableCell>
-                        {g.checkOutTime ? formatTimeID(g.checkOutTime) : "—"}
+                        {g.checkOutTime ? (
+                          formatTimeID(g.checkOutTime)
+                        ) : g.autoClosed ? (
+                          <span
+                            className="text-xs text-muted-foreground"
+                            title="Kunjungan ditutup otomatis oleh sistem; jam keluar tidak tercatat."
+                          >
+                            Ditutup otomatis
+                          </span>
+                        ) : (
+                          "—"
+                        )}
                       </TableCell>
                       <TableCell>
                         <GuestStatusBadge status={g.status} />

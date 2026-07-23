@@ -248,6 +248,9 @@ model Guest {
   visitDetail String? @map("visit_detail")
 
   status GuestStatus @default(MENUNGGU)
+  // Ditutup otomatis oleh sistem karena tamu tidak melakukan checkout.
+  // Jam keluar sengaja dibiarkan kosong agar data durasi tetap jujur.
+  autoClosed Boolean @default(false) @map("auto_closed")
   notes  String?
 
   // Base64 PNG langsung di kolom (keputusan terkunci, docs/01 §3).

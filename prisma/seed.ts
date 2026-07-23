@@ -243,6 +243,7 @@ async function main() {
     { key: "app.name", value: "SIBT-DISHUB", description: "Nama aplikasi" },
     { key: "app.instansi", value: "Dinas Perhubungan", description: "Nama instansi" },
     { key: "guest.edit_window_hours", value: "0", description: "Jendela edit resepsionis (0 = hanya hari berjalan)" },
+    { key: "guest.auto_close_hours", value: "4", description: "Batas jam sebelum kunjungan tanpa checkout ditutup otomatis" },
   ];
   for (const s of SETTINGS) {
     await prisma.setting.upsert({

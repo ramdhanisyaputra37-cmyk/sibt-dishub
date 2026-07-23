@@ -7,6 +7,7 @@ import { can } from "@/shared/lib/rbac";
 import { prisma } from "@/shared/infrastructure/prisma";
 import { listQuerySchema } from "@/modules/guest/application/guest.schema";
 import { listGuests } from "@/modules/guest/application/list-guests.usecase";
+import { autoCloseStaleGuests } from "@/modules/guest/application/auto-close-guests.usecase";
 import { canEditGuest } from "@/modules/guest/application/update-guest.usecase";
 import {
   GuestList,
@@ -38,6 +39,9 @@ export default async function BukuTamuPage({
     order: sp.order,
   });
 
+  // Rapikan kunjungan menggantung sebelum data ditampilkan (lazy, ter-throttle).
+  await autoCloseStaleGuests();
+
   const [result, departments] = await Promise.all([
     listGuests(query),
     prisma.department.findMany({
@@ -56,6 +60,7 @@ export default async function BukuTamuPage({
     checkInTime: g.checkInTime.toISOString(),
     checkOutTime: g.checkOutTime ? g.checkOutTime.toISOString() : null,
     status: g.status as GuestListRowVM["status"],
+    autoClosed: g.autoClosed,
     canEdit:
       can(user.role, "guest", "update") &&
       canEditGuest(user.role, {

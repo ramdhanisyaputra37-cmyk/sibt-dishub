@@ -5,6 +5,7 @@ import { CalendarDays, CalendarRange, Plus, Users, CalendarClock } from "lucide-
 import { requireUser } from "@/shared/infrastructure/session";
 import { can } from "@/shared/lib/rbac";
 import { getDashboardStats } from "@/modules/dashboard/application/get-dashboard-stats.usecase";
+import { autoCloseStaleGuests } from "@/modules/guest/application/auto-close-guests.usecase";
 import { StatCard } from "@/modules/dashboard/presentation/stat-card";
 import {
   VisitsChart,
@@ -23,6 +24,7 @@ export const dynamic = "force-dynamic";
 
 export default async function DashboardPage() {
   const user = await requireUser();
+  await autoCloseStaleGuests();
   const stats = await getDashboardStats();
 
   const canCreateGuest = can(user.role, "guest", "create");

@@ -138,7 +138,9 @@ export default async function GuestDetailPage({
                 value={`${formatTimeID(guest.checkInTime)} – ${
                   guest.checkOutTime
                     ? `${formatTimeID(guest.checkOutTime)} (${formatDuration(guest.checkInTime, guest.checkOutTime)})`
-                    : "belum keluar"
+                    : guest.autoClosed
+                      ? "ditutup otomatis oleh sistem"
+                      : "belum keluar"
                 }`}
               />
               {guest.notes && (
