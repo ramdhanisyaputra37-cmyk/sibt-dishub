@@ -10,7 +10,7 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default:
-          "bg-primary text-primary-foreground shadow hover:bg-primary/90",
+          "bg-btn-primary text-primary-foreground shadow hover:brightness-105",
         destructive:
           "bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90",
         outline:
@@ -21,8 +21,8 @@ const buttonVariants = cva(
         link: "text-primary underline-offset-4 hover:underline",
         success:
           "bg-success text-success-foreground shadow hover:bg-success/90",
-        // Dua tingkat biru (primary -> secondary) dengan sedikit perubahan saat
-        // hover. HANYA dipakai di area publik (landing/login), bukan dashboard.
+        // Varian gradasi lebih kuat untuk tombol aksi utama di halaman publik.
+        // Tombol default kini juga bergradasi, namun lebih halus.
         gradient:
           "bg-gradient-to-b from-primary to-secondary text-primary-foreground shadow transition-all hover:from-primary hover:to-primary hover:shadow-md hover:brightness-110",
       },

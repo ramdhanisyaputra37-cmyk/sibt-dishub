@@ -23,7 +23,7 @@ export function StatCard({
   const positive = (delta ?? 0) >= 0;
 
   return (
-    <Card>
+    <Card className="bg-stat-tile">
       <CardContent className="flex items-center justify-between p-5">
         <div className="min-w-0">
           <p className="text-sm text-muted-foreground">{label}</p>
@@ -47,7 +47,7 @@ export function StatCard({
             </p>
           )}
         </div>
-        <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
+        <div className="bg-icon-tile flex h-11 w-11 shrink-0 items-center justify-center rounded-lg text-primary">
           <Icon className="h-5 w-5" />
         </div>
       </CardContent>

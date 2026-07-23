@@ -212,3 +212,118 @@
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   mix-blend-mode: soft-light;
 }
+
+/* ============================================================
+ * Kumpulan gradasi tambahan — dipakai di landing maupun dalam
+ * aplikasi. Semua dijaga tipis agar teks & data tetap terbaca.
+ * ============================================================ */
+
+/* Seksi terang pada landing (Tentang, Alur) — putih ke biru sangat muda. */
+.bg-section-soft {
+  background-image: linear-gradient(
+    180deg,
+    hsl(var(--card)) 0%,
+    hsl(210 70% 98.5%) 60%,
+    hsl(208 72% 96.5%) 100%
+  );
+}
+
+/* Variasi seksi berikutnya agar dua seksi bersebelahan tidak kembar. */
+.bg-section-alt {
+  background-image:
+    radial-gradient(52% 40% at 88% 0%, hsl(var(--gold) / 0.09), transparent 62%),
+    linear-gradient(180deg, hsl(208 72% 97%) 0%, hsl(var(--card)) 100%);
+}
+
+/* Kartu kecil di dalam seksi terang. */
+.bg-card-soft {
+  background-image: linear-gradient(
+    160deg,
+    hsl(var(--card)) 0%,
+    hsl(210 70% 98%) 100%
+  );
+}
+
+/* Panel kontak gelap: navy dengan sapuan emas tipis di satu sudut. */
+.bg-contact-panel {
+  background-color: hsl(var(--secondary));
+  background-image:
+    radial-gradient(44% 52% at 92% 12%, hsl(var(--gold) / 0.18), transparent 66%),
+    linear-gradient(140deg, hsl(216 58% 13%) 0%, hsl(var(--secondary)) 60%, hsl(var(--primary)) 100%);
+}
+
+/* Footer: transisi lembut dari biru muda ke putih. */
+.bg-footer-soft {
+  background-image: linear-gradient(
+    180deg,
+    hsl(208 72% 96.5%) 0%,
+    hsl(var(--card)) 100%
+  );
+}
+
+/* Kartu statistik dashboard: gradasi diagonal putih -> biru sangat muda. */
+.bg-stat-tile {
+  background-image:
+    radial-gradient(60% 70% at 100% 0%, hsl(var(--primary) / 0.08), transparent 62%),
+    linear-gradient(150deg, hsl(var(--card)) 0%, hsl(210 72% 98%) 100%);
+}
+
+/* Kotak ikon di kartu statistik. */
+.bg-icon-tile {
+  background-image: linear-gradient(
+    145deg,
+    hsl(var(--primary) / 0.16) 0%,
+    hsl(var(--primary) / 0.07) 55%,
+    hsl(var(--gold) / 0.14) 100%
+  );
+}
+
+/* Menu sidebar aktif: gradasi biru dengan aksen lebih gelap di bawah. */
+.bg-nav-active {
+  background-image: linear-gradient(
+    135deg,
+    hsl(var(--primary)) 0%,
+    hsl(var(--secondary)) 100%
+  );
+}
+
+/* Tombol utama: gradasi dua tingkat biru, sedikit menggelap saat hover. */
+.bg-btn-primary {
+  background-image: linear-gradient(
+    180deg,
+    hsl(208 100% 38%) 0%,
+    hsl(var(--primary)) 55%,
+    hsl(var(--secondary)) 100%
+  );
+}
+.bg-btn-primary:hover {
+  background-image: linear-gradient(
+    180deg,
+    hsl(var(--primary)) 0%,
+    hsl(var(--secondary)) 60%,
+    hsl(207 80% 24%) 100%
+  );
+}
+
+/* Baris judul tabel: gradasi tipis agar kepala tabel terbaca sebagai lapisan. */
+.bg-table-head {
+  background-image: linear-gradient(
+    180deg,
+    hsl(210 60% 98.5%) 0%,
+    hsl(208 66% 96%) 100%
+  );
+}
+
+/* Penyesuaian mode gelap agar gradasi terang tidak menyilaukan. */
+.dark .bg-section-soft,
+.dark .bg-section-alt,
+.dark .bg-card-soft,
+.dark .bg-footer-soft,
+.dark .bg-stat-tile,
+.dark .bg-table-head {
+  background-image: linear-gradient(
+    180deg,
+    hsl(var(--card)) 0%,
+    hsl(221 46% 14%) 100%
+  );
+}

@@ -180,7 +180,7 @@ export default async function LandingPage() {
         </section>
 
         {/* ============================ TENTANG ============================ */}
-        <section id="tentang" className="border-t bg-card">
+        <section id="tentang" className="border-t bg-section-soft">
           <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 md:py-20">
             <Reveal>
               <div className="mx-auto max-w-2xl text-center">
@@ -200,7 +200,7 @@ export default async function LandingPage() {
             <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
               {FEATURES.map((f, i) => (
                 <Reveal key={f.title} delay={i * 0.08}>
-                  <div className="group h-full rounded-xl border bg-background p-6 transition-shadow hover:shadow-md">
+                  <div className="group h-full rounded-xl border bg-card-soft p-6 transition-shadow hover:shadow-md">
                     <div className="flex h-11 w-11 items-center justify-center rounded-lg bg-primary/10 text-primary transition-colors group-hover:bg-primary group-hover:text-primary-foreground">
                       <f.icon className="h-5 w-5" />
                     </div>
@@ -218,7 +218,7 @@ export default async function LandingPage() {
         </section>
 
         {/* ========================= ALUR KUNJUNGAN ========================= */}
-        <section id="alur" className="border-t">
+        <section id="alur" className="border-t bg-section-alt">
           <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 md:py-20">
             <Reveal>
               <div className="mx-auto max-w-2xl text-center">
@@ -273,7 +273,7 @@ export default async function LandingPage() {
         </section>
 
         {/* ============================ KONTAK ============================ */}
-        <section id="kontak" className="border-t bg-secondary text-white">
+        <section id="kontak" className="border-t bg-contact-panel text-white">
           <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 md:py-20">
             <Reveal>
               <div className="max-w-2xl">
@@ -306,7 +306,7 @@ export default async function LandingPage() {
       </main>
 
       {/* ============================ FOOTER ============================ */}
-      <footer className="border-t bg-background">
+      <footer className="border-t bg-footer-soft">
         <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-3 px-4 py-8 text-center sm:flex-row sm:px-6 sm:text-left">
           <div>
             <p className="font-display text-sm font-bold text-secondary">

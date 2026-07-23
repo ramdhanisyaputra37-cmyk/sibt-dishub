@@ -82,7 +82,7 @@ function SidebarLink({
         "flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-colors",
         nested && "ml-4 py-1.5",
         active
-          ? "bg-primary text-primary-foreground shadow-sm"
+          ? "bg-nav-active text-primary-foreground shadow-sm"
           : "text-muted-foreground hover:bg-accent hover:text-accent-foreground",
       )}
     >
