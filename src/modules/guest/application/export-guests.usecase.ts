@@ -40,6 +40,7 @@ async function fetchForExport(q: ListQuery): Promise<ExportRow[]> {
       status: true,
       institution: { select: { name: true } },
       department: { select: { name: true } },
+      employeeName: true,
       employee: { select: { name: true } },
       purpose: { select: { name: true } },
     },
