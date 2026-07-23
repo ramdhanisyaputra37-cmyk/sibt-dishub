@@ -42,6 +42,12 @@ export const guestFormSchema = z
       .string()
       .optional()
       .transform((v) => (v && v.trim() ? v.trim() : undefined)),
+    // Diketik bebas oleh tamu di kios (master pegawai sering belum lengkap).
+    employeeName: z
+      .string()
+      .max(150)
+      .optional()
+      .transform((v) => (v && v.trim() ? v.trim() : undefined)),
     purposeId: z.string().min(1, "Keperluan wajib dipilih"),
     visitDetail: z
       .string()
@@ -54,11 +60,13 @@ export const guestFormSchema = z
       .optional()
       .transform((v) => (v && v.trim() ? v.trim() : undefined)),
 
-    // Base64 PNG dari signature pad (docs/01 §3). Wajib — buku tamu perlu ttd.
+    // Base64 PNG dari signature pad (docs/01 §3). Opsional agar tamu tidak
+    // terhambat, terutama saat mengisi dari layar HP kecil.
     signatureImage: z
       .string()
-      .min(1, "Tanda tangan wajib diisi")
-      .refine((v) => v.startsWith("data:image/"), {
+      .optional()
+      .transform((v) => (v && v.trim() ? v.trim() : undefined))
+      .refine((v) => !v || v.startsWith("data:image/"), {
         message: "Tanda tangan tidak valid",
       }),
     // Foto opsional — dikirim sebagai base64 dari client, diupload ke Blob di

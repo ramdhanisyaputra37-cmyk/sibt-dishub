@@ -243,6 +243,10 @@ model Guest {
   employeeId String?   @map("employee_id")
   employee   Employee? @relation(fields: [employeeId], references: [id], onDelete: Restrict)
 
+  // Nama pegawai yang diketik bebas oleh tamu di kios, dipakai bila tamu tidak
+  // memilih dari master pegawai. Tampilan memprioritaskan relasi `employee`.
+  employeeName String? @map("employee_name")
+
   purposeId   String  @map("purpose_id")
   purpose     Purpose @relation(fields: [purposeId], references: [id], onDelete: Restrict)
   visitDetail String? @map("visit_detail")

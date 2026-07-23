@@ -53,7 +53,7 @@ async function fetchForExport(q: ListQuery): Promise<ExportRow[]> {
     phoneNumber: g.phoneNumber,
     institution: g.institution.name,
     department: g.department.name,
-    employee: g.employee?.name ?? null,
+    employee: g.employee?.name ?? g.employeeName ?? null,
     purpose: g.purpose.name,
     checkInTime: g.checkInTime,
     checkOutTime: g.checkOutTime,

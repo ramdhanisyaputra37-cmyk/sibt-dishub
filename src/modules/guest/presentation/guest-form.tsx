@@ -454,7 +454,7 @@ export function GuestForm({
               name="signatureImage"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel required>Tanda Tangan</FormLabel>
+                  <FormLabel>Tanda Tangan (opsional)</FormLabel>
                   <FormControl>
                     <SignaturePad
                       value={field.value || undefined}

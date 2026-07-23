@@ -121,7 +121,7 @@ export default async function GuestDetailPage({
                 value={
                   guest.employee
                     ? `${guest.employee.name}${guest.employee.position ? ` (${guest.employee.position})` : ""}`
-                    : "-"
+                    : (guest.employeeName ?? "-")
                 }
               />
               <Field label="Keperluan" value={guest.purpose.name} />

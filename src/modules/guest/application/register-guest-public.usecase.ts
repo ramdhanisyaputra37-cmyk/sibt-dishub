@@ -71,6 +71,7 @@ export async function registerGuestPublic(
           institutionId,
           departmentId: data.departmentId,
           employeeId: data.employeeId,
+          employeeName: data.employeeName,
           purposeId: data.purposeId,
           visitDetail: data.visitDetail,
           notes: data.notes,

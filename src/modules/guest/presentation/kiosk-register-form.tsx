@@ -20,6 +20,7 @@ import {
   FormField,
   FormItem,
   FormLabel,
+  FormDescription,
   FormMessage,
 } from "@/components/ui/form";
 import { SignaturePad } from "./signature-pad";
@@ -56,6 +57,7 @@ export function KioskRegisterForm({ lookups }: { lookups: GuestLookups }) {
       newInstitutionName: "",
       departmentId: "",
       employeeId: "",
+      employeeName: "",
       purposeId: "",
       visitDetail: "",
       notes: "",
@@ -65,20 +67,12 @@ export function KioskRegisterForm({ lookups }: { lookups: GuestLookups }) {
     },
   });
 
-  const selectedDept = form.watch("departmentId");
   const institutionOptions = useMemo(
     () => [
       ...lookups.institutions.map((i) => ({ value: i.id, label: i.name })),
       ...newInstitutions,
     ],
     [lookups.institutions, newInstitutions],
-  );
-  const employeeOptions = useMemo(
-    () =>
-      lookups.employees
-        .filter((e) => !selectedDept || e.departmentId === selectedDept)
-        .map((e) => ({ value: e.id, label: e.name })),
-    [lookups.employees, selectedDept],
   );
 
   const onSubmit = (values: GuestFormInput) => {
@@ -240,7 +234,7 @@ export function KioskRegisterForm({ lookups }: { lookups: GuestLookups }) {
             name="institutionId"
             render={({ field }) => (
               <FormItem>
-                <FormLabel required>Instansi / Asal</FormLabel>
+                <FormLabel required>Instansi Asal Anda</FormLabel>
                 <FormControl>
                   <Combobox
                     options={institutionOptions}
@@ -249,7 +243,7 @@ export function KioskRegisterForm({ lookups }: { lookups: GuestLookups }) {
                       field.onChange(v);
                       form.setValue("newInstitutionName", "");
                     }}
-                    placeholder="Pilih atau ketik instansi"
+                    placeholder="Ketik nama instansi asal Anda"
                     onCreate={(label) => {
                       const tmp = `__new__:${label}`;
                       setNewInstitutions((prev) =>
@@ -262,6 +256,11 @@ export function KioskRegisterForm({ lookups }: { lookups: GuestLookups }) {
                     }}
                   />
                 </FormControl>
+                <FormDescription>
+                  Instansi, perusahaan, atau organisasi tempat Anda berasal —
+                  bukan bidang yang Anda tuju. Bila belum terdaftar dalam
+                  daftar, ketik saja namanya lalu pilih opsi menambahkan.
+                </FormDescription>
                 <FormMessage />
               </FormItem>
             )}
@@ -271,7 +270,7 @@ export function KioskRegisterForm({ lookups }: { lookups: GuestLookups }) {
             name="departmentId"
             render={({ field }) => (
               <FormItem>
-                <FormLabel required>Bidang yang Dituju</FormLabel>
+                <FormLabel required>Bidang Tujuan di Dinas Perhubungan</FormLabel>
                 <FormControl>
                   <Combobox
                     options={lookups.departments.map((d) => ({
@@ -292,21 +291,20 @@ export function KioskRegisterForm({ lookups }: { lookups: GuestLookups }) {
           />
           <FormField
             control={form.control}
-            name="employeeId"
+            name="employeeName"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Pegawai yang Ditemui</FormLabel>
                 <FormControl>
-                  <Combobox
-                    options={employeeOptions}
+                  <Input
+                    placeholder="Tulis nama pegawai (opsional)"
+                    {...field}
                     value={field.value ?? ""}
-                    onChange={field.onChange}
-                    placeholder={
-                      selectedDept ? "Opsional" : "Pilih bidang dahulu"
-                    }
-                    disabled={!selectedDept}
                   />
                 </FormControl>
+                <FormDescription>
+                  Kosongkan bila Anda belum tahu nama pegawai yang akan ditemui.
+                </FormDescription>
                 <FormMessage />
               </FormItem>
             )}
@@ -357,7 +355,7 @@ export function KioskRegisterForm({ lookups }: { lookups: GuestLookups }) {
             name="signatureImage"
             render={({ field }) => (
               <FormItem>
-                <FormLabel required>Bubuhkan Tanda Tangan</FormLabel>
+                <FormLabel>Bubuhkan Tanda Tangan (opsional)</FormLabel>
                 <FormControl>
                   <SignaturePad
                     value={field.value || undefined}
