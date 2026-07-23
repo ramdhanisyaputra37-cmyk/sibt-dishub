@@ -48,6 +48,7 @@ export default async function EditTamuPage({
     institutionId: guest.institution.id,
     departmentId: guest.department.id,
     employeeId: guest.employee?.id ?? "",
+    employeeName: guest.employeeName ?? guest.employee?.name ?? "",
     purposeId: guest.purpose.id,
     visitDetail: guest.visitDetail ?? "",
     notes: guest.notes ?? "",

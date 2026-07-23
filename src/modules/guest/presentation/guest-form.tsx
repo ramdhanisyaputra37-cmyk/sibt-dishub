@@ -35,6 +35,7 @@ import {
   FormField,
   FormItem,
   FormLabel,
+  FormDescription,
   FormMessage,
 } from "@/components/ui/form";
 import { SignaturePad } from "./signature-pad";
@@ -85,6 +86,7 @@ export function GuestForm({
       newInstitutionName: "",
       departmentId: "",
       employeeId: "",
+      employeeName: "",
       purposeId: "",
       visitDetail: "",
       notes: "",
@@ -103,11 +105,12 @@ export function GuestForm({
     ],
     [lookups.institutions, newInstitutions],
   );
-  const employeeOptions = useMemo(
+  // Saran nama pegawai (opsional) — tetap boleh diketik bebas di luar daftar.
+  const employeeSuggestions = useMemo(
     () =>
       lookups.employees
         .filter((e) => !selectedDept || e.departmentId === selectedDept)
-        .map((e) => ({ value: e.id, label: e.name })),
+        .map((e) => e.name),
     [lookups.employees, selectedDept],
   );
 
@@ -328,23 +331,33 @@ export function GuestForm({
             />
             <FormField
               control={form.control}
-              name="employeeId"
+              name="employeeName"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Pegawai yang Ditemui</FormLabel>
                   <FormControl>
-                    <Combobox
-                      options={employeeOptions}
+                    <Input
+                      placeholder="Ketik nama pegawai (opsional)"
+                      list="saran-pegawai"
+                      {...field}
                       value={field.value ?? ""}
-                      onChange={field.onChange}
-                      placeholder={
-                        selectedDept
-                          ? "Pilih pegawai (opsional)"
-                          : "Pilih bidang dahulu"
-                      }
-                      disabled={!selectedDept}
+                      onChange={(e) => {
+                        field.onChange(e);
+                        // Nama ketikan menggantikan relasi master agar tidak
+                        // ada dua sumber nama yang saling bertentangan.
+                        form.setValue("employeeId", "");
+                      }}
                     />
                   </FormControl>
+                  <datalist id="saran-pegawai">
+                    {employeeSuggestions.map((name) => (
+                      <option key={name} value={name} />
+                    ))}
+                  </datalist>
+                  <FormDescription>
+                    Boleh diketik bebas; nama yang sudah terdaftar akan muncul
+                    sebagai saran.
+                  </FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
