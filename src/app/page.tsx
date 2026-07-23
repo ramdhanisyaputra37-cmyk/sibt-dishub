@@ -88,46 +88,60 @@ export default async function LandingPage() {
 
       <main className="flex-1">
         {/* ============================ HERO ============================ */}
-        <section id="beranda" className="relative overflow-hidden">
-          {/* Pola geometris halus (titik navy) sebagai dekorasi latar. */}
+        <section
+          id="beranda"
+          className="relative overflow-hidden bg-hero-mesh text-white"
+        >
+          {/* Dekorasi: titik terang halus + noise peredam banding + glow emas. */}
           <div
             aria-hidden
-            className="pointer-events-none absolute inset-0 opacity-[0.4]"
+            className="pointer-events-none absolute inset-0 opacity-50"
             style={{
               backgroundImage:
-                "radial-gradient(hsl(var(--secondary) / 0.09) 1px, transparent 1px)",
-              backgroundSize: "22px 22px",
+                "radial-gradient(hsl(0 0% 100% / 0.06) 1px, transparent 1px)",
+              backgroundSize: "24px 24px",
             }}
           />
           <div
             aria-hidden
-            className="pointer-events-none absolute -right-24 -top-24 h-96 w-96 rounded-full bg-gold/10 blur-3xl"
+            className="noise-overlay pointer-events-none absolute inset-0 opacity-[0.06]"
+          />
+          <div
+            aria-hidden
+            className="pointer-events-none absolute -right-28 -top-28 h-96 w-96 rounded-full bg-gold/20 blur-3xl"
           />
 
-          <div className="relative mx-auto grid max-w-6xl items-center gap-10 px-4 py-16 sm:px-6 md:py-24 lg:grid-cols-2">
+          <div className="relative mx-auto grid max-w-6xl items-center gap-10 px-4 py-16 sm:px-6 md:py-28 lg:grid-cols-2">
             <Reveal>
               <div>
-                <span className="inline-flex items-center gap-2 rounded-full border border-gold/40 bg-gold-soft px-3 py-1 text-xs font-semibold text-gold-foreground">
+                <span className="inline-flex items-center gap-2 rounded-full border border-gold/50 bg-white/10 px-3 py-1 text-xs font-semibold text-[#F5E0A8] backdrop-blur">
                   <span className="h-1.5 w-1.5 rounded-full bg-gold" />
                   Buku Tamu Digital Resmi
                 </span>
-                <h1 className="mt-5 font-display text-4xl font-extrabold leading-[1.1] tracking-tight text-secondary sm:text-5xl">
+                <h1 className="mt-5 font-display text-4xl font-extrabold leading-[1.1] tracking-tight sm:text-5xl">
                   Catat kunjungan Anda,{" "}
-                  <span className="text-primary">cukup dari ponsel.</span>
+                  <span className="bg-gradient-to-r from-[#C6DEF9] to-[#F2DCA0] bg-clip-text text-transparent">
+                    cukup dari ponsel.
+                  </span>
                 </h1>
-                <p className="mt-5 max-w-lg text-base leading-relaxed text-muted-foreground sm:text-lg">
+                <p className="mt-5 max-w-lg text-base leading-relaxed text-sky-100/85 sm:text-lg">
                   SIBT-DISHUB menggantikan buku tamu manual Dinas Perhubungan
                   Kota Batu dengan pencatatan digital yang cepat, rapi, dan
                   dapat ditelusuri.
                 </p>
                 <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-                  <Button asChild size="xl" className="shadow-md">
+                  <Button asChild size="xl" variant="gradient" className="shadow-lg">
                     <Link href="/kios">
                       <ClipboardPen className="h-5 w-5" />
                       Isi Buku Tamu
                     </Link>
                   </Button>
-                  <Button asChild size="xl" variant="outline">
+                  <Button
+                    asChild
+                    size="xl"
+                    variant="outline"
+                    className="border-white/30 bg-white/10 text-white hover:bg-white/20 hover:text-white"
+                  >
                     <Link href="/login">
                       <LogIn className="h-5 w-5" />
                       Masuk sebagai Petugas
@@ -137,30 +151,24 @@ export default async function LandingPage() {
               </div>
             </Reveal>
 
-            {/* Kartu ringkasan statistik NYATA */}
+            {/* Kartu ringkasan statistik NYATA — kartu terang di atas hero navy. */}
             <Reveal delay={0.15}>
               <div className="relative mx-auto w-full max-w-md">
-                <div className="overflow-hidden rounded-2xl border bg-card shadow-xl">
-                  <div className="relative bg-secondary px-6 py-5">
+                <div className="overflow-hidden rounded-2xl border border-white/60 bg-stat-card shadow-2xl">
+                  <div className="relative px-6 py-5">
                     <div className="absolute inset-x-0 top-0 h-1 bg-gold" />
-                    <p className="text-xs font-medium uppercase tracking-wider text-white/70">
+                    <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
                       Ringkasan Kunjungan
                     </p>
-                    <p className="mt-0.5 font-display text-lg font-bold text-white">
+                    <p className="mt-0.5 font-display text-lg font-bold text-secondary">
                       Dinas Perhubungan Kota Batu
                     </p>
                   </div>
-                  <div className="grid grid-cols-2 divide-x">
-                    <StatBlock
-                      label="Kunjungan Hari Ini"
-                      value={stats.today}
-                    />
-                    <StatBlock
-                      label="Kunjungan Bulan Ini"
-                      value={stats.month}
-                    />
+                  <div className="grid grid-cols-2 divide-x border-t">
+                    <StatBlock label="Kunjungan Hari Ini" value={stats.today} />
+                    <StatBlock label="Kunjungan Bulan Ini" value={stats.month} />
                   </div>
-                  <div className="border-t bg-muted/40 px-6 py-3">
+                  <div className="border-t bg-white/50 px-6 py-3">
                     <p className="text-center text-xs text-muted-foreground">
                       Diperbarui otomatis setiap menit
                     </p>

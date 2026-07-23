@@ -21,6 +21,10 @@ const buttonVariants = cva(
         link: "text-primary underline-offset-4 hover:underline",
         success:
           "bg-success text-success-foreground shadow hover:bg-success/90",
+        // Dua tingkat biru (primary -> secondary) dengan sedikit perubahan saat
+        // hover. HANYA dipakai di area publik (landing/login), bukan dashboard.
+        gradient:
+          "bg-gradient-to-b from-primary to-secondary text-primary-foreground shadow transition-all hover:from-primary hover:to-primary hover:shadow-md hover:brightness-110",
       },
       size: {
         default: "h-9 px-4 py-2",
