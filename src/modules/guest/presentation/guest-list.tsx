@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { usePathname, useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import type { GuestStatus } from "@prisma/client";
 import { BookUser, ChevronLeft, ChevronRight } from "lucide-react";
 
@@ -16,6 +16,13 @@ import {
 } from "@/components/ui/table";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { cn } from "@/shared/lib/utils";
 import { formatTimeID, formatDuration } from "@/shared/lib/timezone";
 import { GuestStatusBadge } from "./status-badge";
@@ -59,6 +66,17 @@ export function GuestList({
   const pathname = usePathname();
   const params = useSearchParams();
 
+  const router = useRouter();
+
+  // Ubah jumlah baris per halaman; selalu kembali ke halaman 1 agar
+  // rentang data yang ditampilkan tetap masuk akal.
+  const changePerPage = (value: string) => {
+    const next = new URLSearchParams(params.toString());
+    next.set("perPage", value);
+    next.set("page", "1");
+    router.push(`${pathname}?${next.toString()}`);
+  };
+
   const pageHref = (p: number) => {
     const next = new URLSearchParams(params.toString());
     next.set("page", String(p));
@@ -89,8 +107,8 @@ export function GuestList({
                   <TableRow>
                     <TableHead>No. Antrian</TableHead>
                     <TableHead>Nama</TableHead>
-                    <TableHead>Instansi</TableHead>
-                    <TableHead>Bidang</TableHead>
+                    <TableHead>Instansi Asal Tamu</TableHead>
+                    <TableHead>Bidang Tujuan</TableHead>
                     <TableHead>Jam Masuk</TableHead>
                     <TableHead>Jam Keluar</TableHead>
                     <TableHead>Status</TableHead>
@@ -205,9 +223,27 @@ export function GuestList({
 
           {/* Pagination */}
           <div className="flex flex-col items-center justify-between gap-3 sm:flex-row">
-            <p className="text-sm text-muted-foreground">
-              Menampilkan {from}–{to} dari {total.toLocaleString("id-ID")} tamu
-            </p>
+            <div className="flex flex-wrap items-center gap-3">
+              <p className="text-sm text-muted-foreground">
+                Menampilkan {from}–{to} dari {total.toLocaleString("id-ID")} tamu
+              </p>
+              <div className="flex items-center gap-2">
+                <span className="text-sm text-muted-foreground">Tampilkan</span>
+                <Select value={String(perPage)} onValueChange={changePerPage}>
+                  <SelectTrigger className="h-8 w-[76px]">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {[10, 25, 50, 100].map((n) => (
+                      <SelectItem key={n} value={String(n)}>
+                        {n}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <span className="text-sm text-muted-foreground">baris</span>
+              </div>
+            </div>
             <div className="flex items-center gap-2">
               <Button
                 variant="outline"
