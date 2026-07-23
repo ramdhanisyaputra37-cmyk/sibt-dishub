@@ -58,6 +58,16 @@ const config: Config = {
           DEFAULT: "hsl(var(--info))",
           foreground: "hsl(var(--info-foreground))",
         },
+        gold: {
+          DEFAULT: "hsl(var(--gold))",
+          foreground: "hsl(var(--gold-foreground))",
+          soft: "hsl(var(--gold-soft))",
+        },
+      },
+      fontFamily: {
+        // Font display berkarakter untuk heading landing/login (Plus Jakarta
+        // Sans). Body dashboard tetap memakai stack default yang ada.
+        display: ["var(--font-display)", "var(--font-sans)", "sans-serif"],
       },
       borderRadius: {
         lg: "var(--radius)",

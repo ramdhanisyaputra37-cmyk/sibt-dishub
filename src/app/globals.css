@@ -43,6 +43,11 @@
     --info: 200.4 98% 39.4%;
     --info-foreground: 210 40% 98%;
 
+    /* Aksen emas identitas instansi (landing & login) — selaras dgn navy. */
+    --gold: 41 63% 46%;
+    --gold-foreground: 40 60% 12%;
+    --gold-soft: 43 74% 92%;
+
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
     --ring: 208.3 100% 33.7%;
@@ -83,6 +88,10 @@
 
     --info: 200.4 90% 55%;
     --info-foreground: 220 48.8% 8.4%;
+
+    --gold: 41 70% 58%;
+    --gold-foreground: 40 60% 12%;
+    --gold-soft: 41 30% 20%;
 
     --border: 217.2 32.6% 17.5%;
     --input: 217.2 32.6% 17.5%;

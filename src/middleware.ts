@@ -14,9 +14,13 @@ export default auth((req) => {
   const role = req.auth?.user?.role;
   const path = nextUrl.pathname;
 
-  // Route publik — selalu boleh (kios & login tidak butuh sesi).
+  // Route publik — selalu boleh (landing, kios, & login tidak butuh sesi).
+  // "/" = landing page publik; "/kios" mencakup form isian & "/kios/[token]"
+  // untuk checkout mandiri.
   const isPublic =
-    path.startsWith("/login") || path.startsWith("/kios");
+    path === "/" ||
+    path.startsWith("/login") ||
+    path.startsWith("/kios");
 
   if (isPublic) {
     // Bila sudah login lalu buka /login, arahkan ke dashboard.
