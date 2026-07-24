@@ -71,7 +71,7 @@ export default async function ActivityLogPage({
   return (
     <div className="space-y-5">
       <div>
-        <h1 className="text-2xl font-bold tracking-tight">Activity Log</h1>
+        <h1 className="text-grad-title text-2xl font-bold tracking-tight">Activity Log</h1>
         <p className="text-sm text-muted-foreground">
           Jejak audit seluruh aktivitas sistem (hanya-baca).
         </p>

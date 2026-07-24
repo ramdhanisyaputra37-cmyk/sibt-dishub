@@ -66,7 +66,7 @@ export default async function EditTamuPage({
           </Link>
         </Button>
         <div>
-          <h1 className="text-2xl font-bold tracking-tight">Edit Data Tamu</h1>
+          <h1 className="text-grad-title text-2xl font-bold tracking-tight">Edit Data Tamu</h1>
           <p className="font-mono text-sm text-muted-foreground">
             {guest.queueNumber}
           </p>

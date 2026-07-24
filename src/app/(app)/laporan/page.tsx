@@ -45,7 +45,7 @@ export default async function LaporanPage({
   return (
     <div className="space-y-5">
       <div>
-        <h1 className="text-2xl font-bold tracking-tight">Laporan Kunjungan</h1>
+        <h1 className="text-grad-title text-2xl font-bold tracking-tight">Laporan Kunjungan</h1>
         <p className="text-sm text-muted-foreground">
           Rekap kunjungan tamu per periode, siap diexport dan dicetak.
         </p>

@@ -18,7 +18,7 @@ export default async function PengaturanPage() {
   return (
     <div className="mx-auto max-w-2xl space-y-5">
       <div>
-        <h1 className="text-2xl font-bold tracking-tight">Pengaturan Sistem</h1>
+        <h1 className="text-grad-title text-2xl font-bold tracking-tight">Pengaturan Sistem</h1>
         <p className="text-sm text-muted-foreground">
           Konfigurasi umum aplikasi. Perubahan tercatat di activity log.
         </p>

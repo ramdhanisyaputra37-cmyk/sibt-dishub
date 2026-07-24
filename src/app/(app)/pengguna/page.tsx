@@ -18,7 +18,7 @@ export default async function PenggunaPage() {
   return (
     <div className="space-y-5">
       <div>
-        <h1 className="text-2xl font-bold tracking-tight">
+        <h1 className="text-grad-title text-2xl font-bold tracking-tight">
           Manajemen Pengguna
         </h1>
         <p className="text-sm text-muted-foreground">

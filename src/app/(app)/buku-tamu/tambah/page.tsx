@@ -27,7 +27,7 @@ export default async function TambahTamuPage() {
           </Link>
         </Button>
         <div>
-          <h1 className="text-2xl font-bold tracking-tight">Tambah Tamu Baru</h1>
+          <h1 className="text-grad-title text-2xl font-bold tracking-tight">Tambah Tamu Baru</h1>
           <p className="text-sm text-muted-foreground">
             Catat kunjungan tamu. Field bertanda{" "}
             <span className="text-destructive">*</span> wajib diisi.

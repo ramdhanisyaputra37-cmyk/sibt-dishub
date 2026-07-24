@@ -35,7 +35,7 @@ export default async function DashboardPage() {
     <div className="space-y-6">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight">
+          <h1 className="text-grad-title text-2xl font-bold tracking-tight">
             Selamat datang, {user.name.split(" ")[0]}
           </h1>
           <p className="text-sm text-muted-foreground">

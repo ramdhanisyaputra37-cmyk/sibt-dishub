@@ -135,9 +135,10 @@
 .bg-app-shell {
   background-color: hsl(var(--background));
   background-image:
-    radial-gradient(58% 48% at 8% 0%, hsl(var(--primary) / 0.07), transparent 60%),
-    radial-gradient(46% 42% at 100% 4%, hsl(var(--gold) / 0.06), transparent 58%),
-    radial-gradient(70% 60% at 60% 100%, hsl(208 60% 70% / 0.05), transparent 70%);
+    radial-gradient(62% 54% at 4% -4%, hsl(var(--primary) / 0.2), transparent 62%),
+    radial-gradient(52% 46% at 102% 0%, hsl(var(--gold) / 0.16), transparent 60%),
+    radial-gradient(74% 66% at 58% 104%, hsl(208 72% 62% / 0.16), transparent 70%),
+    linear-gradient(180deg, hsl(208 60% 96%) 0%, hsl(var(--background)) 45%, hsl(210 62% 95%) 100%);
   background-attachment: fixed;
 }
 
@@ -146,8 +147,8 @@
   background-image: linear-gradient(
     180deg,
     hsl(var(--card)) 0%,
-    hsl(210 60% 98.5%) 55%,
-    hsl(210 70% 97%) 100%
+    hsl(208 68% 96.5%) 50%,
+    hsl(208 74% 93.5%) 100%
   );
 }
 
@@ -223,24 +224,26 @@
   background-image: linear-gradient(
     180deg,
     hsl(var(--card)) 0%,
-    hsl(210 70% 98.5%) 60%,
-    hsl(208 72% 96.5%) 100%
+    hsl(208 76% 96%) 55%,
+    hsl(208 80% 91%) 100%
   );
 }
 
 /* Variasi seksi berikutnya agar dua seksi bersebelahan tidak kembar. */
 .bg-section-alt {
   background-image:
-    radial-gradient(52% 40% at 88% 0%, hsl(var(--gold) / 0.09), transparent 62%),
-    linear-gradient(180deg, hsl(208 72% 97%) 0%, hsl(var(--card)) 100%);
+    radial-gradient(56% 46% at 90% -4%, hsl(var(--gold) / 0.26), transparent 62%),
+    radial-gradient(50% 44% at 4% 100%, hsl(var(--primary) / 0.14), transparent 64%),
+    linear-gradient(180deg, hsl(208 80% 92%) 0%, hsl(208 60% 97.5%) 60%, hsl(var(--card)) 100%);
 }
 
 /* Kartu kecil di dalam seksi terang. */
 .bg-card-soft {
   background-image: linear-gradient(
-    160deg,
+    155deg,
     hsl(var(--card)) 0%,
-    hsl(210 70% 98%) 100%
+    hsl(208 74% 96%) 60%,
+    hsl(208 78% 93%) 100%
   );
 }
 
@@ -248,15 +251,17 @@
 .bg-contact-panel {
   background-color: hsl(var(--secondary));
   background-image:
-    radial-gradient(44% 52% at 92% 12%, hsl(var(--gold) / 0.18), transparent 66%),
-    linear-gradient(140deg, hsl(216 58% 13%) 0%, hsl(var(--secondary)) 60%, hsl(var(--primary)) 100%);
+    radial-gradient(48% 56% at 94% 8%, hsl(var(--gold) / 0.4), transparent 64%),
+    radial-gradient(46% 50% at 2% 96%, hsl(208 100% 52% / 0.35), transparent 66%),
+    linear-gradient(140deg, hsl(216 62% 11%) 0%, hsl(var(--secondary)) 52%, hsl(208 100% 40%) 100%);
 }
 
 /* Footer: transisi lembut dari biru muda ke putih. */
 .bg-footer-soft {
   background-image: linear-gradient(
     180deg,
-    hsl(208 72% 96.5%) 0%,
+    hsl(208 80% 91%) 0%,
+    hsl(208 62% 97%) 55%,
     hsl(var(--card)) 100%
   );
 }
@@ -264,17 +269,18 @@
 /* Kartu statistik dashboard: gradasi diagonal putih -> biru sangat muda. */
 .bg-stat-tile {
   background-image:
-    radial-gradient(60% 70% at 100% 0%, hsl(var(--primary) / 0.08), transparent 62%),
-    linear-gradient(150deg, hsl(var(--card)) 0%, hsl(210 72% 98%) 100%);
+    radial-gradient(66% 76% at 102% -6%, hsl(var(--primary) / 0.24), transparent 64%),
+    radial-gradient(50% 60% at 0% 100%, hsl(var(--gold) / 0.14), transparent 66%),
+    linear-gradient(150deg, hsl(var(--card)) 0%, hsl(208 72% 95.5%) 100%);
 }
 
 /* Kotak ikon di kartu statistik. */
 .bg-icon-tile {
   background-image: linear-gradient(
     145deg,
-    hsl(var(--primary) / 0.16) 0%,
-    hsl(var(--primary) / 0.07) 55%,
-    hsl(var(--gold) / 0.14) 100%
+    hsl(var(--primary) / 0.42) 0%,
+    hsl(var(--primary) / 0.22) 55%,
+    hsl(var(--gold) / 0.4) 100%
   );
 }
 
@@ -309,8 +315,8 @@
 .bg-table-head {
   background-image: linear-gradient(
     180deg,
-    hsl(210 60% 98.5%) 0%,
-    hsl(208 66% 96%) 100%
+    hsl(208 66% 97%) 0%,
+    hsl(208 74% 92.5%) 100%
   );
 }
 
@@ -326,4 +332,80 @@
     hsl(var(--card)) 0%,
     hsl(221 46% 14%) 100%
   );
+}
+
+/* Kartu semi-transparan: gradasi latar kerja ikut terasa di baliknya
+   tanpa mengurangi keterbacaan isi kartu. */
+.bg-card-glass {
+  background-color: hsl(var(--card) / 0.82);
+  backdrop-filter: blur(10px);
+}
+.dark .bg-card-glass {
+  background-color: hsl(var(--card) / 0.72);
+}
+
+/* Judul bergradasi biru -> indigo untuk heading halaman di dashboard. */
+.text-grad-title {
+  background-image: linear-gradient(
+    100deg,
+    hsl(var(--secondary)) 0%,
+    hsl(var(--primary)) 45%,
+    hsl(243 75% 59%) 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.dark .text-grad-title {
+  background-image: linear-gradient(
+    100deg,
+    hsl(208 90% 72%) 0%,
+    hsl(208 100% 62%) 45%,
+    hsl(243 90% 76%) 100%
+  );
+}
+
+/* Judul halaman bergradasi — meniru aksen judul pada landing agar
+   kepala tiap halaman dashboard tidak terasa datar. */
+.text-grad-title {
+  background-image: linear-gradient(
+    100deg,
+    hsl(var(--secondary)) 0%,
+    hsl(var(--primary)) 45%,
+    hsl(214 90% 52%) 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.dark .text-grad-title {
+  background-image: linear-gradient(
+    100deg,
+    hsl(208 90% 78%) 0%,
+    hsl(208 96% 66%) 55%,
+    hsl(var(--gold) / 0.9) 100%
+  );
+}
+
+/* Garis aksen bergradasi di bawah topbar. */
+.border-grad-b {
+  border-bottom: 0;
+  box-shadow:
+    inset 0 -1px 0 hsl(var(--border)),
+    0 1px 0 0 transparent;
+  position: relative;
+}
+.border-grad-b::after {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0;
+  height: 2px;
+  background-image: linear-gradient(
+    90deg,
+    hsl(var(--primary)) 0%,
+    hsl(var(--gold)) 45%,
+    hsl(var(--secondary)) 100%
+  );
+  opacity: 0.55;
 }

@@ -16,7 +16,7 @@ export function Topbar({ user }: { user: CurrentUser }) {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-30 flex h-16 items-center gap-2 border-b bg-card/85 px-4 backdrop-blur-md lg:px-6">
+    <header className="border-grad-b sticky top-0 z-30 flex h-16 items-center gap-2 bg-card/85 px-4 backdrop-blur-md lg:px-6">
       {/* Tombol menu mobile */}
       <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
         <SheetTrigger asChild>

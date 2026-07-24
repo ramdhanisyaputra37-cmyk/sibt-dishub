@@ -53,7 +53,7 @@ export default async function GuestDetailPage({
             </Link>
           </Button>
           <div>
-            <h1 className="text-2xl font-bold tracking-tight">
+            <h1 className="text-grad-title text-2xl font-bold tracking-tight">
               Detail Kunjungan
             </h1>
             <p className="font-mono text-sm text-muted-foreground">

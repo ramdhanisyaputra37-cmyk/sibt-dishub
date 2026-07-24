@@ -74,7 +74,7 @@ export default async function BukuTamuPage({
     <div className="space-y-5">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight">Buku Tamu</h1>
+          <h1 className="text-grad-title text-2xl font-bold tracking-tight">Buku Tamu</h1>
           <p className="text-sm text-muted-foreground">
             Daftar seluruh kunjungan tamu Dinas Perhubungan.
           </p>
